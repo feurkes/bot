@@ -1,0 +1,26 @@
+# Steam Rental Bot Dependencies
+# Оптимизированные версии для локального запуска без Rust
+
+# Core dependencies
+aiohttp==3.9.5
+aiosqlite==0.20.0
+asyncio==3.4.3
+bcrypt==4.1.3
+cryptography==42.0.8
+flask==3.0.3
+imap-tools==1.7.0
+playwright==1.44.0
+psutil==5.9.8
+pytelegrambotapi==4.15.0
+python-dotenv==1.0.1
+python-telegram-bot==21.3
+pytz==2024.1
+requests==2.31.0
+requests-toolbelt==1.0.0
+schedule==1.2.1
+telebot==0.0.5
+websockets==12.0
+
+# HTML/XML parsing
+beautifulsoup4==4.12.3
+lxml==4.9.4
