@@ -1,8 +1,6 @@
 from telebot import TeleBot, types
-import logging
 from typing import Any, Optional
-
-logger = logging.getLogger("steam_rental") # next update
+from tg_utils.logger import logger
 
 def safe_edit_message_text(bot: TeleBot, chat_id: int, message_id: int, text: str, reply_markup=None, parse_mode=None) -> None:
     """
