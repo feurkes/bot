@@ -1,9 +1,4 @@
 # Telegram Bot Handlers Package
-from .account_management import *
-from .account_settings import *
-from .steam_operations import *
-from .menu_navigation import *
-from .utils import *
 
 # Main initialization function
 def init_handlers(bot_instance, is_user_authorized_func=None, auth_required_decorator=None, admin_ids=None):
