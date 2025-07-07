@@ -25,14 +25,20 @@ try:
 except:
     pass  # Игнорируем ошибки, если переопределение не удалось
 
-# Функция для вывода с принудительной очисткой буфера
-def print_flush(*args, **kwargs):
-    print(*args, **kwargs)
-    sys.stdout.flush()  # Принудительно сбрасываем буфер
+# Правильный импорт цветного логгера
+from tg_utils.logger import logger, log_bright, log_success, log_error, log_warning, log_info
+from colorama import Fore, Style
 
-# Правильный импорт логгера
-import logging
-logger = logging.getLogger("funpay_integration")
+# Функция для вывода с принудительной очисткой буфера и цветами
+def print_flush(*args, **kwargs):
+    # Если передан цвет, используем его
+    color = kwargs.pop('color', None)
+    if color:
+        message = ' '.join(str(arg) for arg in args)
+        log_bright(message, color=color)
+    else:
+        print(*args, **kwargs)
+    sys.stdout.flush()  # Принудительно сбрасываем буфер
 
 try:
     from FunPayAPI.account import Account
@@ -40,7 +46,7 @@ try:
     from FunPayAPI.updater.events import NewOrderEvent, NewMessageEvent
     from FunPayAPI.common.utils import RegularExpressions
 except Exception as e:
-    print_flush("[DIAGNOSE] Ошибка при импорте FunPayAPI:")
+    log_error(f"[DIAGNOSE] Ошибка при импорте FunPayAPI: {e}")
     traceback.print_exc(file=sys.stdout)
     sys.stdout.flush()
     Account = None

@@ -37,18 +37,18 @@ try:
         paths_to_add.append(venv_site_packages)
     
     for path in paths_to_add:
-        print(f"[DEBUG] Добавляем путь в sys.path: {path}")
+        logger.info(f"🔧 Добавляем путь в sys.path: {path}")
         sys.path.append(path)
         
     # Проверяем наличие pytz в site-packages
     for path in site_packages + ([venv_site_packages] if venv_site_packages else []):
         pytz_path = os.path.join(path, 'pytz')
         if os.path.exists(pytz_path):
-            print(f"[DEBUG] pytz найден по пути: {pytz_path}")
+            logger.info(f"🔍 pytz найден по пути: {pytz_path}")
             if pytz_path not in sys.path:
                 sys.path.append(pytz_path)
 except Exception as e:
-    print(f"[ERROR] Ошибка при поиске pytz: {e}")
+    logger.error(f"❌ Ошибка при поиске pytz: {e}")
 
 import re
 from typing import Optional, Tuple
@@ -66,7 +66,7 @@ try:
     import pytz
     MSK_TIMEZONE = pytz.timezone('Europe/Moscow')
     PYTZ_AVAILABLE = True
-    print("[INFO] pytz успешно импортирован, будет использоваться для временных зон")
+    logger.info("🔧 pytz успешно импортирован, будет использоваться для временных зон")
 except ImportError:
     print("[INFO] pytz не найден, пробуем альтернативные методы")
     try:

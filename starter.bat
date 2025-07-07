@@ -40,11 +40,12 @@ if not exist ".env" (
     echo AUTHORIZED_TELEGRAM_IDS=812130129 >> .env
 )
 
-:: s
+:: Установка браузеров Playwright...
 echo Установка браузеров Playwright...
 python -m playwright install
 
-echo Запуск бота аренды Steam-аккаунтов...
-python standalone_steam_rental_bot.py
+:: Запуск нового структурированного бота
+echo Запуск Steam Rental Bot (новая структура)...
+python start.py
 
 pause
