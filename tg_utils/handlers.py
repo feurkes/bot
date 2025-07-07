@@ -652,9 +652,22 @@ def init_handlers(bot_instance, is_user_authorized_func=None, auth_required_deco
                 except:
                     pass
 
-        # Запускаем тест в отдельном потоке
+        # Запускаем тест в отдельном потоке с правильной обработкой async
         import threading
-        threading.Thread(target=run_test, daemon=True).start()
+        import asyncio
+        
+        def run_test_wrapper():
+            """Wrapper для правильного запуска async функции в потоке"""
+            try:
+                asyncio.run(run_test())
+            except Exception as e:
+                logger.error(f"[STEAM-TEST] Ошибка при выполнении теста: {e}")
+                try:
+                    bot.send_message(call.message.chat.id, f"❌ Ошибка при выполнении теста: {e}")
+                except:
+                    pass
+        
+        threading.Thread(target=run_test_wrapper, daemon=True).start()
 
     # --- ОБНОВЛЕНИЕ МЕНЮ ---
     @bot.callback_query_handler(func=lambda c: c.data == "refresh_menu")
@@ -2274,15 +2287,15 @@ def init_handlers(bot_instance, is_user_authorized_func=None, auth_required_deco
                             bot.send_message(call.message.chat.id, error_msg)
 
                         try:
-                            # Заполнение формы входа и обработка Steam Guard
+                            # Заполнение формы входа и обработка Steam Guard (увеличен timeout до 30 секунд)
                             logger.info(f"[STEAM][ID: {acc_id}][LOGIN: {login}] Начинаю заполнение формы входа")
-                            await page.wait_for_selector('input[type="text"]', timeout=20000)
+                            await page.wait_for_selector('input[type="text"]', timeout=30000)
                             await page.fill('input[type="text"]', login)
                             await page.fill('input[type="password"]', password)
                             await page.click("button[type='submit']")
                             logger.info(f"[STEAM][ID: {acc_id}][LOGIN: {login}] Форма входа заполнена, ожидаю ответ")
                             
-                            await page.wait_for_selector("#auth_buttonset_entercode, input[maxlength='1'], #account_pulldown, .newlogindialog_FormError", timeout=25000)
+                            await page.wait_for_selector("#auth_buttonset_entercode, input[maxlength='1'], #account_pulldown, .newlogindialog_FormError", timeout=45000)
                             logger.info(f"[STEAM][ID: {acc_id}][LOGIN: {login}] Получен ответ от Steam")
                             
                             # Проверка необходимости Steam Guard
@@ -3022,9 +3035,17 @@ def init_handlers(bot_instance, is_user_authorized_func=None, auth_required_deco
                         bot.send_message(call.message.chat.id, f"[STEAM][ID: {acc_id}][LOGIN: {html.escape(login)}] ❌ Достигнуто максимальное количество попыток смены пароля. Кнопка не найдена.")
                     else:
                         bot.send_message(call.message.chat.id, f"[STEAM][ID: {acc_id}][LOGIN: {html.escape(login)}] ❌ Достигнуто максимальное количество попыток смены пароля. Техническая ошибка.")
-            loop = asyncio.new_event_loop()
-            asyncio.set_event_loop(loop)
-            loop.run_until_complete(run_change())
+            
+            # Улучшенная обработка async функции в потоке
+            try:
+                asyncio.run(run_change())
+            except Exception as e:
+                logger.error(f"[STEAM][ID: {acc_id}][LOGIN: {login}] Критическая ошибка при выполнении смены данных: {e}")
+                try:
+                    bot.send_message(call.message.chat.id, f"[STEAM][ID: {acc_id}][LOGIN: {html.escape(login)}] ❌ Критическая ошибка при смене данных.")
+                except:
+                    pass
+        
         threading.Thread(target=worker, daemon=True).start()
 
     # --- ОБРАБОТЧИК СООБЩЕНИЙ ДЛЯ КАСТОМНОГО ВРЕМЕНИ АРЕНДЫ ---

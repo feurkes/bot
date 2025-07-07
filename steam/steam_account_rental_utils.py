@@ -484,7 +484,7 @@ def auto_end_rent(acc_id: int, tg_user_id: int, rent_seconds: int, notify_callba
                     # Ждем поля ввода логина и вводим данные
                     try:
                         page.wait_for_selector(
-                            'input[type="text"]', timeout=20000)
+                            'input[type="text"]', timeout=30000)
                     except PWTimeoutError:
                         logger.error(
                             "[AUTO_END_RENT] Поле логина не найдено на странице")
@@ -501,15 +501,17 @@ def auto_end_rent(acc_id: int, tg_user_id: int, rent_seconds: int, notify_callba
                     # Нажимаем кнопку входа
                     page.click("button[type='submit']")
 
-                    # Ждем либо Steam Guard, либо успешный вход, либо ошибку
+                    # Ждем либо Steam Guard, либо успешный вход, либо ошибку (увеличен timeout до 45 секунд)
                     try:
                         page.wait_for_selector(
-                            "#auth_buttonset_entercode, input[maxlength='1'], #account_pulldown, .newlogindialog_FormError", timeout=25000)
+                            "#auth_buttonset_entercode, input[maxlength='1'], #account_pulldown, .newlogindialog_FormError", timeout=45000)
                     except PWTimeoutError:
                         logger.error(
                             "[AUTO_END_RENT] Время ожидания ответа от Steam истекло")
                         page.screenshot(path=os.path.join(
                             SCREENSHOTS_DIR, f"auto_end_login_timeout_{acc_id}.png"))
+                        # Добавляем информацию о возможности повторной попытки
+                        logger.info("[AUTO_END_RENT] Рекомендуется повторить попытку через некоторое время")
                         return
 
                     # Проверяем необходимость ввода Steam Guard
@@ -548,9 +550,9 @@ def auto_end_rent(acc_id: int, tg_user_id: int, rent_seconds: int, notify_callba
                             if btn:
                                 btn.click()
                         
-                        # Ждем результата ввода кода
+                        # Ждем результата ввода кода (увеличен timeout до 30 секунд)
                         try:
-                            page.wait_for_selector("#account_pulldown, .newlogindialog_FormError", timeout=15000)
+                            page.wait_for_selector("#account_pulldown, .newlogindialog_FormError", timeout=30000)
                         except PWTimeoutError:
                             logger.error(
                                 "[AUTO_END_RENT] Время ожидания после ввода кода истекло")
