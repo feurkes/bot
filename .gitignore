@@ -68,6 +68,7 @@ screenshots/
 storage/
 *.db
 *.log
+test_logo_and_logging.py
 
 # Bot secrets (keep example)
 .env

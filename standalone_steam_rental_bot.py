@@ -10,7 +10,30 @@ import time
 from tg_utils.config import ADMIN_IDS, AUTHORIZED_TELEGRAM_IDS
 from tg_utils.handlers import init_handlers
 from tg_utils.db import init_db, ensure_accounts_columns, restore_rental_timers, DB_PATH
-from tg_utils.logger import logger
+from tg_utils.logger import logger, LOG_STYLES
+from colorama import Fore, Style, init
+
+# Инициализация colorama
+init(autoreset=True)
+
+# STEAM RENTAL Logo
+logo = f"""
+{Fore.CYAN}{Style.BRIGHT}███████╗████████╗███████╗ █████╗ ███╗   ███╗
+██╔════╝╚══██╔══╝██╔════╝██╔══██╗████╗ ████║
+███████╗   ██║   █████╗  ███████║██╔████╔██║
+╚════██║   ██║   ██╔══╝  ██╔══██║██║╚██╔╝██║
+███████║   ██║   ███████╗██║  ██║██║ ╚═╝ ██║
+╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝{Style.RESET_ALL}
+                                             
+        {Fore.RED}{Style.BRIGHT}██████╗ ███████╗███╗   ██╗████████╗ █████╗ ██╗     
+        ██╔══██╗██╔════╝████╗  ██║╚══██╔══╝██╔══██╗██║     
+        ██████╔╝█████╗  ██╔██╗ ██║   ██║   ███████║██║     
+        ██╔══██╗██╔══╝  ██║╚██╗██║   ██║   ██╔══██║██║     
+        ██║  ██║███████╗██║ ╚████║   ██║   ██║  ██║███████╗
+        ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚══════╝{Style.RESET_ALL}
+"""
+
+VERSION = "2.0.0"
 
 # Включаем middleware
 apihelper.ENABLE_MIDDLEWARE = True
@@ -59,6 +82,15 @@ def auth_required(func):
     return wrapper
 
 def main():
+    # Отображаем логотип STEAM RENTAL
+    print(logo)
+    print(f"{Fore.RED}{Style.BRIGHT}v{VERSION}{Style.RESET_ALL}\n")
+    print(f"{Fore.MAGENTA}{Style.BRIGHT}By Promble{Style.RESET_ALL}")
+    print(f"{Fore.MAGENTA}{Style.BRIGHT} * GitHub: {Fore.BLUE}{Style.BRIGHT}https://github.com/Promble/SteamRentalBot{Style.RESET_ALL}")
+    print(f"{Fore.MAGENTA}{Style.BRIGHT} * Telegram: {Fore.BLUE}{Style.BRIGHT}https://t.me/Promble{Style.RESET_ALL}")
+    print(f"{Fore.MAGENTA}{Style.BRIGHT} * Discord: {Fore.BLUE}{Style.BRIGHT}https://discord.gg/yourserver\n{Style.RESET_ALL}")
+    time.sleep(1)
+    
     # Инициализация базы данных
     init_db()
     ensure_accounts_columns()

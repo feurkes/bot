@@ -1,11 +1,32 @@
-import logging # NOTE NEXT UPDATE NOTE 
+"""
+Legacy logger module - now redirects to tg_utils.logger for consistency
+This maintains backward compatibility while using the improved logging system.
+"""
 
-logger = logging.getLogger("steam_rental")
-if not logger.hasHandlers():
-    handler = logging.StreamHandler()
-    handler.setLevel(logging.DEBUG)
-    formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(name)s: %(message)s")
-    handler.setFormatter(formatter)
-    logger.addHandler(handler)
-    logger.propagate = True
-logger.setLevel(logging.DEBUG)
+# Import everything from the improved logger
+from tg_utils.logger import (
+    logger, 
+    LOG_STYLES, 
+    log_bright, 
+    log_success, 
+    log_error, 
+    log_warning, 
+    log_info, 
+    log_event, 
+    log_input,
+    ColoredFormatter,
+    setup_logger
+)
+
+# For backward compatibility, maintain the old interface
+__all__ = [
+    'logger', 
+    'LOG_STYLES', 
+    'log_bright', 
+    'log_success', 
+    'log_error', 
+    'log_warning', 
+    'log_info', 
+    'log_event', 
+    'log_input'
+]

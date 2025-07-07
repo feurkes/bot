@@ -714,7 +714,7 @@ class FunPayListener:
                         print_flush(f'[FunPay][MSG] Аккаунт {acc[0]} выдан.')
                         # --- Через 3 секунды ищем Steam Guard код и отправляем клиенту ---
                         def send_steam_guard_code():
-                            from utils.logger import logger as utils_logger
+                            from tg_utils.logger import logger as utils_logger
                             print_flush(f"[FunPay][STEAM GUARD] Начинаем поиск Steam Guard кода для аккаунта {acc[0]}")
                             from time import sleep
                             sleep(3)
@@ -845,7 +845,7 @@ class FunPayListener:
                 self.funpay_send_message_wrapper(message.chat_id, msg)
                 # Steam Guard код (если есть)
                 def send_steam_guard_code_test():
-                    from utils.logger import logger as utils_logger
+                    from tg_utils.logger import logger as utils_logger
                     print_flush(f"[FunPay][STEAM GUARD TEST] Ищу Steam Guard кода для аккаунта {acc[0]}")
                     from time import sleep
                     sleep(3)
