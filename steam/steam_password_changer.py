@@ -6,7 +6,7 @@ import time
 from utils.password import generate_password
 from db.accounts import update_account_password
 from utils.email_utils import fetch_steam_guard_code_from_email
-from utils.logger import logger
+from tg_utils.logger import logger
 
 async def clear_session(page, acc_id):
     """Полная очистка сессии браузера"""

@@ -4,7 +4,7 @@ from playwright.async_api import async_playwright
 import os
 from typing import Optional, Tuple
 from playwright.async_api import Browser, BrowserContext, Page
-from utils.logger import logger
+from tg_utils.logger import logger
 
 SESSIONS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'sessions')
 os.makedirs(SESSIONS_DIR, exist_ok=True)
