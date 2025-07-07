@@ -7,7 +7,11 @@ Steam Rental Bot - Главный файл для запуска бота
 import os
 import sys
 import time
+import tracemalloc
 from dotenv import load_dotenv
+
+# Включаем tracemalloc для лучшей диагностики ошибок
+tracemalloc.start()
 
 # Импорт цветного логирования
 from tg_utils.logger import logger, log_bright, log_success, log_error, log_warning, log_info, LOG_STYLES
