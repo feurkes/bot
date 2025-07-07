@@ -8,15 +8,6 @@ import logging
 # Use standard logging instead of tg_utils.logger to avoid circular imports
 logger = logging.getLogger("steam_rental")
 
-def get_logger():
-    """Lazy import to avoid circular dependencies"""
-    try:
-        from tg_utils.logger import logger
-        return logger
-    except ImportError:
-        import logging
-        return logging.getLogger(__name__)
-
 # Попытаемся импортировать pytz напрямую из виртуальной среды
 try:
     import os
