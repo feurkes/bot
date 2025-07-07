@@ -2,8 +2,6 @@ import sqlite3
 import os
 import time
 import logging
-from steam.steam_account_rental_utils import send_order_completed_message
-from funpay_integration import FunPayListener
 from config import DB_PATH, DB_DIR # Импортируем из нового файла config.py
 
 # Удаляем старые определения DB_DIR и DB_PATH
@@ -186,6 +184,9 @@ def restore_rental_timers():
 
                     if tg_user_id and order_id and not str(order_id).startswith('TG-'): # Отправляем только FunPay ордерам, не Telegram
                         try:
+                            # Lazy import to avoid circular dependency
+                            from steam.steam_account_rental_utils import send_order_completed_message
+                            from funpay_integration import FunPayListener
                             funpay = FunPayListener()
                             order_data = {'chat_id': tg_user_id, 'order_id': order_id}
                             send_order_completed_message(order_data, 
