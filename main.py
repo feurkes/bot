@@ -10,8 +10,37 @@ import time
 from dotenv import load_dotenv
 
 # Импорт цветного логирования
-from tg_utils.logger import logger, log_bright, log_success, log_error, log_warning, log_info
+from tg_utils.logger import logger, log_bright, log_success, log_error, log_warning, log_info, LOG_STYLES
 from colorama import Fore, Style
+
+# STEAM RENTAL Logo
+logo = f"""
+{Fore.CYAN}{Style.BRIGHT}███████╗████████╗███████╗ █████╗ ███╗   ███╗
+██╔════╝╚══██╔══╝██╔════╝██╔══██╗████╗ ████║
+███████╗   ██║   █████╗  ███████║██╔████╔██║
+╚════██║   ██║   ██╔══╝  ██╔══██║██║╚██╔╝██║
+███████║   ██║   ███████╗██║  ██║██║ ╚═╝ ██║
+╚══════╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝{Style.RESET_ALL}
+                                             
+        {Fore.RED}{Style.BRIGHT}██████╗ ███████╗███╗   ██╗████████╗ █████╗ ██╗     
+        ██╔══██╗██╔════╝████╗  ██║╚══██╔══╝██╔══██╗██║     
+        ██████╔╝█████╗  ██╔██╗ ██║   ██║   ███████║██║     
+        ██╔══██╗██╔══╝  ██║╚██╗██║   ██║   ██╔══██║██║     
+        ██║  ██║███████╗██║ ╚████║   ██║   ██║  ██║███████╗
+        ╚═╝  ╚═╝╚══════╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═╝╚══════╝{Style.RESET_ALL}
+"""
+
+VERSION = "2.0.0"
+
+def display_logo():
+    """Отображает логотип STEAM RENTAL"""
+    print(logo)
+    print(f"{Fore.RED}{Style.BRIGHT}v{VERSION}{Style.RESET_ALL}\n")
+    print(f"{Fore.MAGENTA}{Style.BRIGHT}By Promble{Style.RESET_ALL}")
+    print(f"{Fore.MAGENTA}{Style.BRIGHT} * GitHub: {Fore.BLUE}{Style.BRIGHT}https://github.com/Promble/SteamRentalBot{Style.RESET_ALL}")
+    print(f"{Fore.MAGENTA}{Style.BRIGHT} * Telegram: {Fore.BLUE}{Style.BRIGHT}https://t.me/Promble{Style.RESET_ALL}")
+    print(f"{Fore.MAGENTA}{Style.BRIGHT} * Discord: {Fore.BLUE}{Style.BRIGHT}https://discord.gg/yourserver\n{Style.RESET_ALL}")
+    time.sleep(1)
 
 def check_environment():
     """Проверка переменных окружения"""
@@ -149,6 +178,9 @@ def run_bot_polling(bot, admin_ids):
 def main():
     """Главная функция запуска бота"""
     try:
+        # Отображаем логотип STEAM RENTAL
+        display_logo()
+        
         # Приветствие
         log_bright("=" * 60, Fore.MAGENTA)
         log_bright("🎮 STEAM RENTAL BOT", Fore.MAGENTA)
